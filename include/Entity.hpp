@@ -14,6 +14,9 @@ namespace ECS
         friend const Entity& Engine::AddEntity();
         public:
             virtual ~Entity() = default;
+            Entity(const Entity& other);
+            Entity& operator=(const Entity& other);
+            bool operator==(const Entity& other);
 
             template<class T, class ...Types>
             T& AddComponent(const Types&... args)
@@ -78,9 +81,9 @@ namespace ECS
         private:
             Entity() = delete;
             Entity(Engine& engine);
-            const unsigned int uuid;
-            static unsigned int counter;
             Engine* engine;
+            static unsigned int counter;
+            unsigned int uuid;
     };
 }
 
