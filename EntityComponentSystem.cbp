@@ -44,13 +44,15 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="include/Component.hpp" />
-		<Unit filename="include/ComponentPool.hpp" />
-		<Unit filename="include/Conditions.hpp" />
+		<Unit filename="include/ComponentMapper.hpp" />
+		<Unit filename="include/ComponentMapper.tcc" />
 		<Unit filename="include/Engine.hpp" />
+		<Unit filename="include/Engine.tcc" />
 		<Unit filename="include/Entity.hpp" />
-		<Unit filename="include/EntityFamily.hpp" />
+		<Unit filename="include/Entity.tcc" />
 		<Unit filename="include/Event.hpp" />
 		<Unit filename="include/EventListener.hpp" />
+		<Unit filename="include/Family.hpp" />
 		<Unit filename="include/PrintComponent.hpp" />
 		<Unit filename="include/PrintEvent.hpp" />
 		<Unit filename="include/PrintingSystem.hpp" />
@@ -58,7 +60,7 @@
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Engine.cpp" />
 		<Unit filename="src/Entity.cpp" />
-		<Unit filename="src/EntityFamily.cpp" />
+		<Unit filename="src/Family.cpp" />
 		<Unit filename="src/PrintComponent.cpp" />
 		<Unit filename="src/PrintEvent.cpp" />
 		<Unit filename="src/PrintingSystem.cpp" />

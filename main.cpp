@@ -5,8 +5,7 @@
 #include "PrintEvent.hpp"
 #include "PrintingSystem.hpp"
 #include "PrintComponent.hpp"
-#include "ComponentPool.hpp"
-#include "EntityFamily.hpp"
+#include "Family.hpp"
 
 int main()
 {
@@ -16,12 +15,12 @@ int main()
         PrintingSystem sys = eng.AddSystem<PrintingSystem>();
         ECS::Entity ent = eng.AddEntity();
         ECS::Entity ent2 = eng.AddEntity();
+        ent2 = ent;
         PrintComponent printComp = ent.AddComponent<PrintComponent>();
         eng.AddEventListener(&sys);
         eng.EmitEvent<PrintEvent>();
-        ECS::ComponentPool<PrintComponent>::GetInstance().AddComponent(10);
 
-        ECS::EntityFamily fam;
+        ECS::Family fam;
         fam.HasAllOf<PrintComponent>();
         fam.AddEntity(ent);
         std::cout << fam.size() << std::endl;
@@ -30,6 +29,7 @@ int main()
     }
     catch (std::exception& e)
     {
+        std::cout << "Error :" << std::endl;
         std::cout << e.what() << std::endl;
     }
     return 0;

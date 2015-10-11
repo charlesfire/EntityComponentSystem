@@ -17,7 +17,7 @@ namespace ECS
     };
 
     template<class T>
-    class ComponentMapper final
+    class ComponentMapper final : public IComponentMapper
     {
         static_assert(std::is_base_of<Component, T>(), "A ComponentMapper can only hold components.");
         public:

@@ -15,6 +15,8 @@ Engine::~Engine()
 {
     entities.clear();
     listeners.clear();
+    for (auto mapperPair : mappers)
+        delete mapperPair.second;
     mappers.clear();
     for (auto system : systems)
         delete system;

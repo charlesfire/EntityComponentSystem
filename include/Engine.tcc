@@ -24,15 +24,12 @@ namespace ECS
     }
 
     template<class T>
-    ComponentMapper<T>& Engine::GetComponentMapper(const Entity& entity)const
+    ComponentMapper<T>& Engine::GetComponentMapper()
     {
-        if (std::find(entities.begin(), entities.end(), entity) == entities.end())
-            throw 1; //ToDo : Add exception...
-
-        auto type = typeid(ComponentMapper<T>);
-        if (mappers.find(&type) == mappers.end())
-            mappers.insert(type, ComponentMapper<T>());
-        return *static_cast<ComponentMapper<T>*>(mappers.at(&type));
+        std::type_index index(typeid(ComponentMapper<T>));
+        if (mappers.find(index) == mappers.end())
+            mappers[index] = new ComponentMapper<T>();
+        return *static_cast<ComponentMapper<T>*>(mappers.at(index));
     }
 }
 

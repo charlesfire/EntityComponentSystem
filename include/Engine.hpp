@@ -2,7 +2,7 @@
 #define ENGINE_HPP
 
 #include <algorithm>
-#include <typeinfo>
+#include <typeindex>
 #include <type_traits>
 #include <unordered_map>
 #include <vector>
@@ -20,8 +20,6 @@ namespace ECS
             Engine();
             ~Engine();
 
-            /*template<class T, class ...Args>
-            const T& AddComponent(const Entity& entity, const Args&... args);*/
             const Entity& AddEntity();
             void AddEventListener(EventListener<>* listener);
 
@@ -32,7 +30,7 @@ namespace ECS
             void EmitEvent(const Args&... args);
 
             template<class T>
-            ComponentMapper<T>& GetComponentMapper(const Entity& entity)const;
+            ComponentMapper<T>& GetComponentMapper();
 
             void Update(const float deltaTime)const;
             bool RemoveEntity(const Entity& entity);
@@ -40,7 +38,7 @@ namespace ECS
         private:
             std::vector<Entity> entities;
             std::vector<EventListener<>*> listeners;
-            std::unordered_map<const std::type_info*, IComponentMapper> mappers;
+            std::unordered_map<std::type_index, IComponentMapper*> mappers;
             std::vector<System*> systems;
     };
 }
