@@ -2,6 +2,7 @@
 #define ENTITY_HPP
 
 #include <type_traits>
+#include "ComponentAddedEvent.hpp"
 #include "Engine.hpp"
 
 namespace ECS

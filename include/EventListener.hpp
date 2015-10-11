@@ -16,13 +16,21 @@ namespace ECS
             EventListener() = default;
     };
 
-    template<class T, class ...Types>
-    class EventListener<T, Types...> : public EventListener<Types...>
+    template<class T>
+    class EventListener<T> : public virtual EventListener<>
     {
         static_assert(std::is_base_of<Event, T>(), "An EventListener can only listen to events.");
         public:
             virtual ~EventListener() = default;
             virtual void Listen(T& event) = 0;
+    };
+
+    template<class T, class U, class ...Types>
+    class EventListener<T, U, Types...> : public virtual EventListener<T>, public EventListener<U, Types...>
+    {
+        static_assert(std::is_base_of<Event, T>(), "An EventListener can only listen to events.");
+        public:
+            virtual ~EventListener() = default;
     };
 }
 

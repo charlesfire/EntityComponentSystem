@@ -7,7 +7,9 @@ namespace ECS
     T& Entity::AddComponent(const Args&... args)
     {
         static_assert(std::is_base_of<Component, T>(), "An Entity can only have components.");
-        return engine->GetComponentMapper<T>().AddComponent(uuid);
+        T* componentPtr = &engine->GetComponentMapper<T>().AddComponent(uuid);
+        engine->EmitEvent<ComponentAddedEvent>(*componentPtr, *this);
+        return *componentPtr;
     }
 
     template<class T>

@@ -13,7 +13,7 @@ namespace ECS
     }
 
     template<class T, class ...Args>
-    void Engine::EmitEvent(const Args&... args)
+    void Engine::EmitEvent(Args&... args)
     {
         static_assert(std::is_base_of<Event, T>(), "Engine could only emit Event.");
         T event(args...);

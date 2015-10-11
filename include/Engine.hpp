@@ -26,7 +26,7 @@ namespace ECS
             const T& AddSystem(const Args&... args);
 
             template<class T, class ...Args>
-            void EmitEvent(const Args&... args);
+            void EmitEvent(Args&... args);
 
             template<class T>
             ComponentMapper<T>& GetComponentMapper();
