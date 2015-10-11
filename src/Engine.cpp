@@ -6,25 +6,25 @@
 
 using namespace ECS;
 
-Engine::Engine() : entities(), listeners(), systems()
+Engine::Engine() : entities(), listeners(), mappers(), systems()
 {
 
 }
 
 Engine::~Engine()
 {
+    entities.clear();
+    listeners.clear();
+    mappers.clear();
     for (auto system : systems)
         delete system;
     systems.clear();
-    for (auto entity : entities)
-        delete entity;
-    entities.clear();
 }
 
 const Entity& Engine::AddEntity()
 {
-    entities.push_back(new Entity(*this));
-    return *entities.at(entities.size() - 1);
+    entities.push_back(Entity(*this));
+    return entities.at(entities.size() - 1);
 }
 
 void Engine::AddEventListener(EventListener<>* listener)
@@ -40,10 +40,9 @@ void Engine::Update(const float deltaTime)const
 
 bool Engine::RemoveEntity(const Entity& entity)
 {
-    auto it = std::find(std::begin(entities), std::end(entities), &entity);
+    auto it = std::find(std::begin(entities), std::end(entities), entity);
     if (it != std::end(entities))
     {
-        delete *it;
         entities.erase(it);
         return true;
     }

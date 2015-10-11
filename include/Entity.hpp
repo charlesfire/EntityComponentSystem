@@ -2,7 +2,6 @@
 #define ENTITY_HPP
 
 #include <type_traits>
-#include "ComponentPool.hpp"
 #include "Engine.hpp"
 
 namespace ECS
@@ -13,78 +12,46 @@ namespace ECS
     {
         friend const Entity& Engine::AddEntity();
         public:
-            virtual ~Entity() = default;
+            Entity() = delete;
             Entity(const Entity& other);
+            virtual ~Entity() = default;
             Entity& operator=(const Entity& other);
             bool operator==(const Entity& other);
 
-            template<class T, class ...Types>
-            T& AddComponent(const Types&... args)
-            {
-                static_assert(std::is_base_of<Component, T>(), "An Entity can only have components.");
-                return ComponentPool<T>::GetInstance().AddComponent(uuid, &args...);
-            }
+            template<class T, class ...Args>
+            T& AddComponent(const Args&... args);
 
             template<class T>
-            T& GetComponent()const
-            {
-                static_assert(std::is_base_of<Component, T>(), "An Entity can only have components.");
-                return ComponentPool<T>::GetInstance().GetComponent(uuid);
-            }
+            T& GetComponent()const;
 
             unsigned int GetUUID()const;
 
             template<class T>
-            bool Has()const
-            {
-                static_assert(std::is_base_of<Component, T>(), "An Entity can only have components.");
-                return ComponentPool<T>::GetInstance().HasComponent(uuid);
-            }
+            bool Has()const;
 
             template<class T, class ...Types>
-            bool HasAllOf()const
-            {
-                static_assert(std::is_base_of<Component, T>(), "An Entity can only have components.");
-                if (std::is_same<T, Component>())
-                    return true;
-                return ComponentPool<T>::GetInstance().HasComponent(uuid) && HasAllOf<Types..., Component>();
-            }
+            bool HasAllOf()const;
 
             template<class T, class ...Types>
-            bool HasNoneOf()const
-            {
-                static_assert(std::is_base_of<Component, T>(), "An Entity can only have components.");
-                return !HasOneOf<T, Types...>();
-            }
+            bool HasNoneOf()const;
 
             template<class T>
-            bool HasNot()const
-            {
-                return !Has<T>();
-            }
+            bool HasNot()const;
 
             template<class T, class ...Types>
-            bool HasOneOf()const
-            {
-                static_assert(std::is_base_of<Component, T>(), "An Entity can only have components.");
-                if (std::is_same<T, Component>())
-                    return false;
-                return ComponentPool<T>::GetInstance().HasComponent(uuid) || HasOneOf<Types..., Component>();
-            }
+            bool HasOneOf()const;
 
             template<class T>
-            void RemoveComponent()
-            {
-                static_assert(std::is_base_of<Component, T>(), "Can't remove non-component type from Entity.");
-                ComponentPool<T>::GetInstance().RemoveComponent(uuid);
-            }
+            void RemoveComponent();
         private:
-            Entity() = delete;
-            Entity(Engine& engine);
-            Engine* engine;
+            Entity(ECS::Engine& engine);
+
+            ECS::Engine* engine;
             static unsigned int counter;
             unsigned int uuid;
     };
 }
+
+#include "Entity.tcc"
 
 #endif // ENTITY_HPP

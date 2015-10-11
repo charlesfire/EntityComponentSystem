@@ -1,9 +1,13 @@
 #ifndef ENGINE_HPP
 #define ENGINE_HPP
 
+#include <algorithm>
+#include <typeinfo>
 #include <type_traits>
+#include <unordered_map>
 #include <vector>
 #include "EventListener.hpp"
+#include "ComponentMapper.hpp"
 
 namespace ECS
 {
@@ -15,37 +19,32 @@ namespace ECS
         public:
             Engine();
             ~Engine();
+
+            /*template<class T, class ...Args>
+            const T& AddComponent(const Entity& entity, const Args&... args);*/
             const Entity& AddEntity();
             void AddEventListener(EventListener<>* listener);
 
             template<class T, class ...Args>
-            const T& AddSystem(const Args&... args)
-            {
-                T* system = new T(args...);
-                systems.push_back(system);
-                return *system;
-            }
+            const T& AddSystem(const Args&... args);
 
             template<class T, class ...Args>
-            void EmitEvent(const Args&... args)
-            {
-                T event(args...);
-                for (auto listener : listeners)
-                {
-                    EventListener<T>* castedListener = dynamic_cast<EventListener<T>*>(listener);
-                    if (castedListener != nullptr)
-                        castedListener->Listen(event);
-                }
-            }
+            void EmitEvent(const Args&... args);
+
+            template<class T>
+            ComponentMapper<T>& GetComponentMapper(const Entity& entity)const;
 
             void Update(const float deltaTime)const;
             bool RemoveEntity(const Entity& entity);
             bool RemoveSystem(const System& system);
         private:
-            std::vector<Entity*> entities;
+            std::vector<Entity> entities;
             std::vector<EventListener<>*> listeners;
+            std::unordered_map<const std::type_info*, IComponentMapper> mappers;
             std::vector<System*> systems;
     };
 }
+
+#include "Engine.tcc"
 
 #endif // ENGINE_HPP
