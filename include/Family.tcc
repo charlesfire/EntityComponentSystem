@@ -36,37 +36,47 @@ namespace ECS
 	template<class T>
 	Family& Family::Has()
 	{
-	    conditions.push_back(new ConditionHas<T>());
+	    AddCondition<ConditionHas<T>>();
 	    return *this;
 	}
 
 	template<class T, class ...Types>
 	Family& Family::HasAllOf()
 	{
-	    conditions.push_back(new ConditionHasAllOf<T, Types...>());
+	    AddCondition<ConditionHasAllOf<T, Types...>>();
 	    return *this;
 	}
 
 	template<class T, class ...Types>
 	Family& Family::HasNoneOf()
 	{
-
-	    conditions.push_back(new ConditionHasNoneOf<T, Types...>());
+	    AddCondition<ConditionHasNoneOf<T, Types...>>();
 	    return *this;
 	}
 
 	template<class T>
 	Family& Family::HasNot()
 	{
-	    conditions.push_back(new ConditionHasNot<T>());
+	    AddCondition<ConditionHasNot<T>>();
 	    return *this;
 	}
 
 	template<class T, class ...Types>
 	Family& Family::HasOneOf()
 	{
-	    conditions.push_back(new ConditionHasOneOf<T, Types...>());
+	    AddCondition<ConditionHasOneOf<T, Types...>>();
 	    return *this;
+	}
+
+	template<class T>
+	void Family::AddCondition()
+	{
+	    static_assert(std::is_base_of<ICondition, T>(), "Condition must inherit from ICondition.");
+	    conditions.push_back(new T());
+	    ICondition* condition = conditions.at(conditions.size() - 1);
+	    for (auto entity : entities)
+            if (!(*condition)(entity))
+                RemoveEntity(entity);
 	}
 }
 

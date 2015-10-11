@@ -1,6 +1,7 @@
 #ifndef FAMILY_HPP
 #define FAMILY_HPP
 
+#include <type_traits>
 #include <vector>
 #include "Entity.hpp"
 
@@ -57,6 +58,7 @@ namespace ECS
             virtual ~Family();
 
             bool AddEntity(Entity& entity);
+            void AddEntities(const std::vector<Entity>& entitiesToAdd);
             iterator begin();
             iterator end();
 
@@ -74,10 +76,13 @@ namespace ECS
 
             template<class T, class ...Types>
             Family& HasOneOf();
-
             bool RemoveEntity(const Entity& entity);
+            void RemoveEntities(const std::vector<Entity>& entitiesToRemove);
             std::size_t size()const;
         private:
+            template<class T>
+            void AddCondition();
+
             std::vector<ICondition*> conditions;
             std::vector<Entity> entities;
     };

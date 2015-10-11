@@ -29,6 +29,12 @@ bool Family::AddEntity(Entity& entity)
     return true;
 }
 
+void Family::AddEntities(const std::vector<Entity>& entitiesToAdd)
+{
+    for (auto entity : entitiesToAdd)
+        AddEntity(entity);
+}
+
 Family::iterator Family::begin()
 {
     return entities.begin();
@@ -48,6 +54,12 @@ bool Family::RemoveEntity(const Entity& entity)
         return true;
     }
     return false;
+}
+
+void Family::RemoveEntities(const std::vector<Entity>& entitiesToRemove)
+{
+    for (auto entity : entitiesToRemove)
+        RemoveEntity(entity);
 }
 
 size_t Family::size()const
