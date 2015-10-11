@@ -1,7 +1,6 @@
 #ifndef ENGINE_HPP
 #define ENGINE_HPP
 
-#include <algorithm>
 #include <typeindex>
 #include <type_traits>
 #include <unordered_map>

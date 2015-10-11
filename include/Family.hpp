@@ -19,50 +19,35 @@ namespace ECS
         class ConditionHas : public ICondition
         {
             public:
-                virtual bool operator()(const Entity& entity)const
-                {
-                    return entity.Has<T>();
-                }
+                virtual bool operator()(const Entity& entity)const;
         };
 
         template<class T, class ...Types>
         class ConditionHasAllOf : public ICondition
         {
             public:
-                virtual bool operator()(const Entity& entity)const
-                {
-                    return entity.HasAllOf<T, Types...>();
-                }
+                virtual bool operator()(const Entity& entity)const;
         };
 
         template<class T, class ...Types>
         class ConditionHasNoneOf : public ICondition
         {
             public:
-                virtual bool operator()(const Entity& entity)const
-                {
-                    return entity.HasNoneOf<T, Types...>();
-                }
+                virtual bool operator()(const Entity& entity)const;
         };
 
         template<class T>
         class ConditionHasNot : public ICondition
         {
             public:
-                virtual bool operator()(const Entity& entity)const
-                {
-                    return entity.HasNot<T>();
-                }
+                virtual bool operator()(const Entity& entity)const;
         };
 
         template<class T, class ...Types>
         class ConditionHasOneOf : public ICondition
         {
             public:
-                virtual bool operator()(const Entity& entity)const
-                {
-                    return entity.HasOneOf<T, Types...>();
-                }
+                virtual bool operator()(const Entity& entity)const;
         };
 
         public:
@@ -76,40 +61,19 @@ namespace ECS
             iterator end();
 
             template<class T>
-            Family& Has()
-            {
-                conditions.push_back(new ConditionHas<T>());
-                return *this;
-            }
+            Family& Has();
 
             template<class T, class ...Types>
-            Family& HasAllOf()
-            {
-                conditions.push_back(new ConditionHasAllOf<T, Types...>());
-                return *this;
-            }
+            Family& HasAllOf();
 
             template<class T, class ...Types>
-            Family& HasNoneOf()
-            {
-
-                conditions.push_back(new ConditionHasNoneOf<T, Types...>());
-                return *this;
-            }
+            Family& HasNoneOf();
 
             template<class T>
-            Family& HasNot()
-            {
-                conditions.push_back(new ConditionHasNot<T>());
-                return *this;
-            }
+            Family& HasNot();
 
             template<class T, class ...Types>
-            Family& HasOneOf()
-            {
-                conditions.push_back(new ConditionHasOneOf<T, Types...>());
-                return *this;
-            }
+            Family& HasOneOf();
 
             bool RemoveEntity(const Entity& entity);
             std::size_t size()const;
@@ -118,5 +82,7 @@ namespace ECS
             std::vector<Entity> entities;
     };
 }
+
+#include "Family.tcc"
 
 #endif // FAMILY_HPP
