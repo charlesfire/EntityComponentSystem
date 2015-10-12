@@ -13,7 +13,6 @@ int main()
     {
         ECS::Engine eng;
         PrintingSystem sys = eng.AddSystem<PrintingSystem>();
-        eng.AddEventListener(&sys);
         ECS::Entity ent = eng.AddEntity();
         ECS::Entity ent2 = eng.AddEntity();
         PrintComponent printComp = ent.AddComponent<PrintComponent>();

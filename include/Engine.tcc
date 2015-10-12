@@ -7,8 +7,9 @@ namespace ECS
     const T& Engine::AddSystem(const Args&... args)
     {
         static_assert(std::is_base_of<System, T>(), "Systems must derive from System class.");
-        T* system = new T(args...);
+        T* system = new T(args..., *this);
         systems.push_back(system);
+        system->Init();
         return *system;
     }
 
@@ -17,12 +18,9 @@ namespace ECS
     {
         static_assert(std::is_base_of<Event, T>(), "Engine could only emit Event.");
         T event(args...);
-        for (auto listener : listeners)
-        {
-            EventListener<T>* castedListener = dynamic_cast<EventListener<T>*>(listener);
-            if (castedListener != nullptr)
-                castedListener->Listen(event);
-        }
+        auto range = listeners.equal_range(std::type_index(typeid(T)));
+        for (auto it(range.first); it != range.second; it++)
+            dynamic_cast<EventListener<T>*>(it->second)->Listen(event);
     }
 
     template<class T>
@@ -33,6 +31,12 @@ namespace ECS
         if (mappers.find(index) == mappers.end())
             mappers[index] = new ComponentMapper<T>();
         return *static_cast<ComponentMapper<T>*>(mappers.at(index));
+    }
+
+    template<class T>
+    void Engine::RegisterEventListener(EventListener<T>* listener)
+    {
+        listeners.insert(std::pair<std::type_index, EventListener<>*>(std::type_index(typeid(T)), listener));
     }
 }
 

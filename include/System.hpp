@@ -3,6 +3,8 @@
 
 namespace ECS
 {
+    class Engine;
+
     class System
     {
         public:
@@ -10,7 +12,10 @@ namespace ECS
             virtual void Init() = 0;
             virtual void Update(const float deltaTime) = 0;
         protected:
-            System() = default;
+            System(Engine& engine) : engine(&engine) {}
+            Engine* engine;
+        private:
+            System() = delete;
     };
 }
 

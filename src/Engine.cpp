@@ -33,11 +33,6 @@ const Entity& Engine::AddEntity()
     return *addedEntity;
 }
 
-void Engine::AddEventListener(EventListener<>* listener)
-{
-    listeners.push_back(listener);
-}
-
 void Engine::Update(const float deltaTime)const
 {
     for (auto system : systems)

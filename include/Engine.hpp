@@ -20,7 +20,6 @@ namespace ECS
             ~Engine();
 
             const Entity& AddEntity();
-            void AddEventListener(EventListener<>* listener);
 
             template<class T, class ...Args>
             const T& AddSystem(const Args&... args);
@@ -32,11 +31,14 @@ namespace ECS
             ComponentMapper<T>& GetComponentMapper();
 
             void Update(const float deltaTime)const;
+
+            template<class T>
+            void RegisterEventListener(EventListener<T>* listener);
             bool RemoveEntity(const Entity& entity);
             bool RemoveSystem(const System& system);
         private:
             std::vector<Entity> entities;
-            std::vector<EventListener<>*> listeners;
+            std::unordered_multimap<std::type_index, EventListener<>*> listeners;
             std::unordered_map<std::type_index, IComponentMapper*> mappers;
             std::vector<System*> systems;
     };
