@@ -26,6 +26,8 @@ int main()
         std::cout << fam.size() << std::endl;
         fam.HasAllOf<PrintComponent>();
         std::cout << fam.size() << std::endl;
+
+        ent.RemoveComponent<PrintComponent>();
     }
     catch (std::exception& e)
     {

@@ -61,7 +61,8 @@ namespace ECS
     void Entity::RemoveComponent()
     {
         static_assert(std::is_base_of<Component, T>(), "Can't remove non-component type from Entity.");
-        engine->GetComponentMapper<T>().RemoveComponent(uuid);;
+        engine->GetComponentMapper<T>().RemoveComponent(uuid);
+        engine->EmitEvent<ComponentRemovedEvent>(*this);
     }
 }
 

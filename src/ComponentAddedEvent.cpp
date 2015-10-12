@@ -1,4 +1,5 @@
 #include "ComponentAddedEvent.hpp"
+
 #include "Entity.hpp"
 
 using namespace ECS;

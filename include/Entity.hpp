@@ -3,6 +3,7 @@
 
 #include <type_traits>
 #include "ComponentAddedEvent.hpp"
+#include "ComponentRemovedEvent.hpp"
 #include "Engine.hpp"
 
 namespace ECS

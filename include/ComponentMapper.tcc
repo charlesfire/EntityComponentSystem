@@ -26,7 +26,7 @@ namespace ECS
     template<class T>
     void ComponentMapper<T>::RemoveComponent(const unsigned int uuid)
     {
-        componentsMap.remove(uuid);
+        componentsMap.erase(uuid);
     }
 }
 
