@@ -10,20 +10,6 @@
 #include "PrintComponent.hpp"
 #include "Family.hpp"
 
-struct IntHolder
-{
-    IntHolder(int i) : i(i) {}
-    int i;
-    inline bool operator<(const IntHolder& other)
-    {
-        return i < other.i;
-    }
-    friend bool operator<(const IntHolder& first, const IntHolder& second)
-    {
-        return first.i < second.i;
-    }
-};
-
 int main()
 {
     try
@@ -44,15 +30,6 @@ int main()
         std::cout << fam.size() << std::endl;
 
         ent.RemoveComponent<PrintComponent>();
-        /*std::set<IntHolder> test;
-        test.insert(IntHolder(1));
-        test.insert(IntHolder(10));
-        test.insert(IntHolder(13));
-        test.insert(IntHolder(12));
-        test.insert(IntHolder(15));
-        test.insert(IntHolder(11));
-        for (auto it : test)
-            std::cout << it.i << std::endl;*/
     }
     catch (std::exception& e)
     {
