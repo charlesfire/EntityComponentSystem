@@ -23,6 +23,9 @@ namespace ECS
         public:
             virtual ~EventListener() = default;
             virtual void Listen(T& event) = 0;
+            int GetPriority()const {return priority;}
+        protected:
+            int priority;
     };
 
     template<class T, class U, class ...Types>

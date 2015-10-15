@@ -1,6 +1,7 @@
 #ifndef ENGINE_HPP
 #define ENGINE_HPP
 
+#include <algorithm>
 #include <typeindex>
 #include <type_traits>
 #include <unordered_map>
@@ -38,7 +39,7 @@ namespace ECS
             bool RemoveSystem(const System& system);
         private:
             std::vector<Entity> entities;
-            std::unordered_multimap<std::type_index, EventListener<>*> listeners;
+            std::unordered_map<std::type_index, std::vector<EventListener<>*>> listeners;
             std::unordered_map<std::type_index, IComponentMapper*> mappers;
             std::vector<System*> systems;
     };

@@ -17,10 +17,13 @@ namespace ECS
     void Engine::EmitEvent(Args&... args)
     {
         static_assert(std::is_base_of<Event, T>(), "Engine could only emit Event.");
+        auto it = listeners.find(std::type_index(typeid(T)));
+        if (it == listeners.end())
+            return;
+
         T event(args...);
-        auto range = listeners.equal_range(std::type_index(typeid(T)));
-        for (auto it(range.first); it != range.second; it++)
-            dynamic_cast<EventListener<T>*>(it->second)->Listen(event);
+        for (auto listener : it->second)
+            dynamic_cast<EventListener<T>*>(listener)->Listen(event);
     }
 
     template<class T>
@@ -36,7 +39,16 @@ namespace ECS
     template<class T>
     void Engine::RegisterEventListener(EventListener<T>* listener)
     {
-        listeners.insert(std::pair<std::type_index, EventListener<>*>(std::type_index(typeid(T)), listener));
+        std::type_index index(typeid(T));
+        auto it = listeners.find(index);
+        if (it == listeners.end())
+            it = listeners.insert(std::pair<std::type_index, std::vector<EventListener<>*>>(index, std::vector<EventListener<>*>())).first;
+
+        auto insertPosition = std::lower_bound(it->second.begin(), it->second.end(), listener, [](const EventListener<>* first, const EventListener<>* second)
+                                               {
+                                                    return dynamic_cast<const EventListener<T>*>(first)->GetPriority() < dynamic_cast<const EventListener<T>*>(second)->GetPriority();
+                                               });
+        it->second.insert(insertPosition, listener);
     }
 }
 

@@ -47,6 +47,7 @@
 		<Unit filename="include/ComponentAddedEvent.hpp" />
 		<Unit filename="include/ComponentMapper.hpp" />
 		<Unit filename="include/ComponentMapper.tcc" />
+		<Unit filename="include/ComponentRemovedEvent.hpp" />
 		<Unit filename="include/Engine.hpp" />
 		<Unit filename="include/Engine.tcc" />
 		<Unit filename="include/Entity.hpp" />
@@ -63,6 +64,7 @@
 		<Unit filename="include/System.hpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/ComponentAddedEvent.cpp" />
+		<Unit filename="src/ComponentRemovedEvent.cpp" />
 		<Unit filename="src/Engine.cpp" />
 		<Unit filename="src/Entity.cpp" />
 		<Unit filename="src/EntityAddedEvent.cpp" />
